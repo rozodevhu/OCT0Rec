@@ -1,0 +1,97 @@
+=================================================================================
+                  WELCOME TO OCT0REC - THE ABSOLUTE BEGINNER'S GUIDE
+=================================================================================
+This file will teach you exactly how to set up your own offline Rec Room game
+server from scratch. No programming experience required! Just follow these steps 
+exactly in order.
+
+
+PART 1: SETTING UP THE PYTHON SERVER
+---------------------------------------------------------------------------------
+Your server runs on a programming language called Python. We need to install the
+necessary toolkits so your computer can read the server file.
+
+1. Install Python:
+   - Go to python.org and download the latest version for Windows.
+   - IMPORTANT: When installing, check the box that says "Add Python to PATH" 
+     before clicking install. If you skip this, nothing else will work!
+
+2. Install the Server Modules:
+   - Press the Windows Key on your keyboard, type "cmd", and hit Enter. This 
+     opens the black Command Prompt box.
+   - Type this exact code and press Enter:
+     
+     pip install flask flask-sock
+
+   - Wait a moment. You will see bars loading until it successfully finishes.
+
+
+PART 2: FORCING THE GAME CLIENT TO TALK TO YOUR HOST (PATCHING)
+---------------------------------------------------------------------------------
+Rec Room is built to check the official internet servers. Because those are 
+gone, we need to modify the game files so it looks at your local machine 
+(localhost) instead. 
+
+Choose the method below depending on what year your game build is from:
+
+METHOD A: For 2019, 2020, and 2021 builds (IL2CPP Engine)
+1. Download a free program online named "Metadata String Editor".
+2. Open your Rec Room folder, then click into: RecRoom_Data -> il2cpp_data -> Metadata
+3. Find the file inside named "global-metadata.dat".
+4. Drag and drop that "global-metadata.dat" file directly into the Metadata 
+   String Editor window.
+5. In the editor's search bar, type: ns.rec.net
+6. Click on the result, click the "Modify" button, and change it exactly to:
+   
+   http://localhost:2059
+
+7. Save and overwrite the file. Close the editor.
+
+METHOD B: For 2016, 2017, and 2018 builds (Mono Engine)
+1. Download a free program online named "dnSpy". Open it.
+2. Open your Rec Room folder, then click into: RecRoom_Data -> Managed
+3. Drag the file named "Assembly-CSharp.dll" directly into dnSpy's left column.
+4. Press "Ctrl + Shift + K" on your keyboard to open the search bar.
+5. Type "api.rec.net" and double-click the results to open the code.
+6. Right-click the line showing "https://rec.net", select "Edit Method", 
+   and rewrite that address line exactly to:
+   
+   public string BaseUrl = "http://localhost:2059";
+
+7. Click "Compile" in the bottom right corner.
+8. Go to the top bar: Click File -> Save Module -> click OK. Close dnSpy.
+
+
+PART 3: CONFIGURING THE MULTIPLAYER PHYSICS ENGINE (PHOTON)
+---------------------------------------------------------------------------------
+Our Python script handles menus and lockers, but we need a separate background 
+program to trace your 3D hands and headset tracking so you don't glitch out.
+
+1. Go to photonengine.com, create a free account, and navigate to their SDK center.
+2. Download the package named "Photon Server SDK v4".
+3. Unzip the downloaded folder on your desktop.
+4. Open the folder and run the program named "PhotonControl.exe" as an Administrator.
+5. Look at the bottom right corner of your Windows monitor (your system tray near 
+   the clock). Look for a white circle icon.
+6. Right-click that white circle icon, hover over "LoadBalancing", and click 
+   "Start as Application". 
+
+
+PART 4: HOW TO LAUNCH AND PLAY THE GAME
+---------------------------------------------------------------------------------
+You must start your programs in this exact sequence every time you play:
+
+1. Ensure your Photon server is running (The tray icon should be active).
+2. Open Command Prompt inside your server folder (where app.py is located) 
+   and run the python engine script:
+   
+   python app.py
+
+   (Leave this black box open in the background! It will log your watch interactions).
+
+3. Double-click the file named "launch_unlocked.bat" that sits in your folder.
+   - This bypasses the old anti-cheat loops so the game doesn't crash.
+   - By default, it opens the game in flat-screen desktop mode.
+
+4. Enjoy playing! Your game client is now successfully linked to your offline realm.
+=================================================================================
