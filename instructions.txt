@@ -1,0 +1,79 @@
+=================================================================================
+             COMPLETE CLIENT-SERVER SETUP GUIDE FOR REC ROOM LOCALHOST (PORT 2059)
+=================================================================================
+
+STEP 1: PREPARE THE PYTHON SERVER ENVIRONMENT
+---------------------------------------------------------------------------------
+1. Make sure Python is installed on your Windows PC.
+2. Open your terminal or Command Prompt (cmd) and install the necessary libraries:
+   
+   pip install flask flask-sock
+
+3. Save the Python script provided in the previous message exactly as "app.py" 
+   in an empty folder on your desktop.
+
+
+STEP 2: PERMANENTLY PATCH YOUR PC GAME BUILD (NO EAC MANDATORY)
+---------------------------------------------------------------------------------
+Ensure you are using a 2019-2020 PC build that does not include active Easy Anti-Cheat.
+
+For IL2CPP Builds (Most common 2019-2020 builds):
+1. Navigate inside your game files to: RecRoom_Data\il2cpp_data\Metadata\
+2. Open the "Metadata String Editor" utility.
+3. Drag and drop the "global-metadata.dat" file directly into the editor.
+4. Search for the text string: ns.rec.net
+5. Click "Modify" and overwrite it with your exact localhost server address:
+   
+   http://localhost:2059
+
+6. Keep/Save the file and overwrite the original.
+
+For Mono Builds (Older 2018 - Early 2019 builds):
+1. Open "dnSpy" and drag the game's "RecRoom_Data\Managed\Assembly-CSharp.dll" file into it.
+2. Search for the "RecNet" class structure.
+3. Right-click the hardcoded URL link line (e.g., https://rec.net) and select "Edit Method".
+4. Replace the old web address with:
+   
+   public string BaseUrl = "http://localhost:2059";
+
+5. Click "Compile" in the bottom right, then click File -> Save Module to finish.
+
+
+STEP 3: CONFIGURING THE MULTIPLAYER MOVEMENT ENGINE (PHOTON)
+---------------------------------------------------------------------------------
+1. Download the "Photon Server SDK v4" application package from the official 
+   Photon Engine website.
+2. Extract the folder, open it, and run "PhotonControl.exe" as an Administrator.
+3. Locate the white Photon icon inside your hidden Windows system tray taskbar 
+   (bottom right of your screen).
+4. Right-click the icon, navigate to "LoadBalancing", and click "Start as Application".
+   *This opens local port 5055 to sync your VR/Desktop hand and head physics.*
+
+
+STEP 4: SETTING UP BOTH SCREEN MODE AND VR MODE SHORTCUTS
+---------------------------------------------------------------------------------
+1. Navigate to your game folder, right-click your patched game executable 
+   (e.g., RecRoom.exe), and choose "Create Shortcut".
+2. Drag that shortcut to your desktop, right-click it, and select "Properties".
+3. In the "Target" text field, go to the absolute end of the line, press Space, 
+   and type your mode command parameter:
+
+   To play in SCREEN MODE (Mouse & Keyboard):
+   Add: -asdevice 5
+
+   To play in VR MODE (SteamVR / Oculus Link):
+   Add: -asdevice 1
+
+4. Click "Apply" and click "OK". (You can create two separate shortcuts if you want both modes).
+
+
+STEP 5: LAUNCH CHRONOLOGY (DO THIS EVERY TIME YOU PLAY)
+---------------------------------------------------------------------------------
+1. Ensure PhotonControl is active in your system tray (LoadBalancing -> Started).
+2. Open Command Prompt in your server folder and run the backend script:
+   
+   python app.py
+
+3. Double-click your custom Desktop or VR shortcut to start the game build.
+4. Enjoy playing! You will boot seamlessly into a functional, unlimited-token local setup.
+=================================================================================
